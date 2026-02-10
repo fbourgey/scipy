@@ -1645,7 +1645,7 @@ class BaseQRupdate(BaseQRdeltas):
                     q, r = linalg.qr(A)
                     q1, r1 = linalg.qr_update(q, r, u, v)
                     # check update: Q1 @ R1 == A + u @ v.T.conj()
-                    assert np.allclose(
+                    assert_allclose(
                         q1 @ r1, A + u @ v.T.conj(), rtol=self.rtol, atol=self.atol
                     )
                     # check shapes
@@ -1656,9 +1656,9 @@ class BaseQRupdate(BaseQRdeltas):
                         f"Expected R shape (M, N), got {r1.shape}"
                     )
                     # check orthogonality of Q1
-                    assert np.allclose(
+                    assert_allclose(
                         q1.T.conj() @ q1, np.eye(M), rtol=self.rtol, atol=self.atol
-                    ), "Updated Q is not orthogonal"
+                    )
 
 class TestQRupdate_f(BaseQRupdate):
     dtype = np.dtype('f')
