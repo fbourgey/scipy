@@ -123,6 +123,14 @@ def _set_doc(obj):
         obj.__doc__ = obj.__doc__ % _doc_parts
 
 
+def _set_doc_class(obj):
+    if obj.__doc__:
+        doc_parts = _doc_parts.copy()
+        doc_parts["params_basic"] = ""
+        doc_parts["params_extra"] = ""
+        obj.__doc__ = obj.__doc__ % doc_parts
+
+
 def nonlin_solve(F, x0, jacobian='krylov', iter=None, verbose=False,
                  maxiter=None, f_tol=None, f_rtol=None, x_tol=None, x_rtol=None,
                  tol_norm=None, line_search='armijo', callback=None,
@@ -863,7 +871,9 @@ class BroydenFirst(GenericBroyden):
 
     Parameters
     ----------
+    %(params_basic)s
     %(broyden_params)s
+    %(params_extra)s
 
     See Also
     --------
@@ -964,7 +974,6 @@ class BroydenFirst(GenericBroyden):
 
         self.Gm.append(c, d)
 
-_set_doc(BroydenFirst)
 
 class BroydenSecond(BroydenFirst):
     """
@@ -1371,6 +1380,7 @@ class KrylovJacobian(Jacobian):
 
     Parameters
     ----------
+    %(params_basic)s
     rdiff : float, optional
         Relative step size to use in numerical differentiation.
     method : str or callable, optional
@@ -1406,6 +1416,7 @@ class KrylovJacobian(Jacobian):
         (defined with `method`). Parameter names must start with
         the `inner_` prefix which will be stripped before passing on
         the inner method. See, e.g., `scipy.sparse.linalg.gmres` for details.
+    %(params_extra)s
 
     See Also
     --------
@@ -1642,3 +1653,5 @@ linearmixing = _nonlin_wrapper('linearmixing', LinearMixing)
 diagbroyden = _nonlin_wrapper('diagbroyden', DiagBroyden)
 excitingmixing = _nonlin_wrapper('excitingmixing', ExcitingMixing)
 newton_krylov = _nonlin_wrapper('newton_krylov', KrylovJacobian)
+_set_doc_class(BroydenFirst)
+_set_doc_class(KrylovJacobian)
